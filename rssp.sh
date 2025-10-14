@@ -19,11 +19,11 @@ parse_feed() {
 
 html_unescape() {
   local text="$1";
-  text="${text//&lt;/<}"
-  text="${text//&gt;/>}"
-  text="${text//&amp;/&}"
-  text="${text//&nbsp;/ }"
-  text="${text//&quot;/\"}"
+  text="${text//\&lt\;/\<}"
+  text="${text//\&gt\;/\>}"
+  text="${text//\&amp\;/\&}"
+  text="${text//\&nbsp\;/\ }"
+  text="${text//\&quot\;/\"}"
   echo "$text"
 }
 
@@ -72,7 +72,7 @@ while parse_feed; do
       pubdate="$(date -d "$VALUE" "+%Y/%m/%d")"
       ;;
     /item | /entry)
-      echo "$pubdate "$(html_unescape "$title")""
+      printf '%s %s\n' "$pubdate" "$(html_unescape "$title")"
       echo "$link"
       ;;
     \!\[CDATA*)
