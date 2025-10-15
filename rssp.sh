@@ -7,7 +7,7 @@
 # \/ \_/\__/\__/\/     
 #
 # C : 2021/10/20
-# M : 2025/10/13
+# M : 2025/10/15
 # D : quick rss feed parser.
 
 parse_feed() {
@@ -67,7 +67,7 @@ while parse_feed; do
       else
         link="$VALUE"
       fi
-      [[ $link =~ /shorts/ ]] && title="[SHORT] $title"
+      [[ $link =~ /shorts/ ]] && title="[S] $title"
       ;;
     pubDate | published)
       pubdate="$(date -d "$VALUE" "+%Y/%m/%d")"
@@ -88,6 +88,12 @@ while parse_feed; do
       ;;
     /title)
       unset TT
+      ;;
+    media:statistics*)
+      if [[ $TAG =~ .*views=\"(.+)\" ]]; then
+        ((${BASH_REMATCH[1]} == 0)) && title="[*] $title"
+      fi
+      ;;
   esac
 
 done <<< "$content"
