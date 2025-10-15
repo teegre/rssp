@@ -67,6 +67,7 @@ while parse_feed; do
       else
         link="$VALUE"
       fi
+      [[ $link =~ /shorts/ ]] && title="[SHORT] $title"
       ;;
     pubDate | published)
       pubdate="$(date -d "$VALUE" "+%Y/%m/%d")"
